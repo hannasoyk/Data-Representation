@@ -9,7 +9,7 @@ int selectedBook = -1;
 
 
 void setup(){
-  size (1200, 800);
+  size (1200, 860);
   background(72,139,142);
   smooth();
 
@@ -22,12 +22,15 @@ void setup(){
 }
 
 void draw(){
+  mouseDetect();
   background(72,139,142);
   time();
   postaward();
   preaward();
-  title();
+  maintitle();
   legend();
+  
+  
   
   if(bSelect) {
     textFont(t);
@@ -41,17 +44,16 @@ void draw(){
     textFont(it, 22);
     fill(172, 211, 213);
     text(b.title, 0, 0);
+    
     popMatrix();
     
     pushMatrix();
-    translate(b.pos.x-200, 710); // Translate to the center
-    rotate(-HALF_PI);
-//    rotate(-PI/4.0);
+    translate(b.pos.x, b.pos.y+50); // Translate to the center
+    //rotate(-HALF_PI);
     textFont(t, 15);
-    fill(255);
-    text(b.growth+"%", 0, 200);
+    fill(205, 229, 230);
+    text(b.growth+"X", 0, 0);
     popMatrix();
-
         
     /*
     switch(selectedBook) {
@@ -70,10 +72,10 @@ void draw(){
     }
     
   */
-    
+
   }  
-  textAlign(LEFT);
-  
+        textAlign(LEFT);
+
 }
   
 
@@ -104,15 +106,15 @@ void preaward() {
   for(int i=0; i<12; i++) {
   BookSales bos = books.get(i);
   float x = map(bos.bookYear, 2000, 2011, 120, width-120);
-  float y = map(bos.growth, 88.67, 99.52, height-100, 300);
-  float w = map(bos.preaward, 2397, 35900, 7, 100);
-  float h = map(bos.preaward, 2397, 35900, 7, 100);
+  //float y = map(bos.growth, 782, 20772, height-200, 200);
+  float y = map(bos.growth, 8, 208, height-200, 200);
+  float w = map(sqrt(bos.preaward), sqrt(2397), sqrt(35900), 7, 100);
   bos.pos.x = x;
   bos.pos.y = y;
   
   fill(139, 142, 72);
-  ellipse(x, y, w, h);
-  line(x, y, x, 770);
+  ellipse(x, y, w, w);
+  line(x, y, x, 830);
   }
 }
 
@@ -123,22 +125,25 @@ void postaward() {
   
   
   float x = map(bos.bookYear, 2000, 2011, 120, width-120);
-  float y = map(bos.growth, 88.67, 99.52, height-100, 300);
-  
-  float w = map(bos.postaward, 182044, 1312221, 75, 547);
-  float h = map(bos.postaward, 182044, 1312221, 75, 547);
+  //float y = map(bos.growth, 782, 20772, height-200, 200);  
+  float y = map(bos.growth, 8, 208, height-200, 200);
+  float w = map(sqrt(bos.postaward), sqrt(182044), sqrt(1312221), 75, 547);
   fill(142, 75, 72, 126);
-  ellipse(x, y, w, h);
+  ellipse(x, y, w, w);
   }
 }
 
-void title(){
+void maintitle(){
   textFont (f);
   fill(205, 229, 230);
+   
   text(title, 790, 70);
+  
   fill(177, 180, 107);
-  textFont (f, 24);
+ 
+  textFont (it, 24);
   text(subtitle, 890, 102);
+ 
 }
 
 void legend(){
@@ -163,7 +168,7 @@ void legend(){
   text(preaward, 1020, 130);
   
   //line for percentage growth
-  String growth = "Percentage Growth";
+  String growth = "Growth Increase";
   stroke(142, 75, 72);
   line(993, 163, 1007, 163);
   fill(255);
@@ -172,9 +177,9 @@ void legend(){
 }
 
 
-void mouseMoved() {
+void mouseDetect() {
   
-  for(BookSales b:books) {
+    for(BookSales b:books) {
     if((mouseX >= b.pos.x-20 && mouseX <= b.pos.x+20) && (mouseY >= b.pos.y-20 && mouseY <= b.pos.y+20)) {
       if(bSelect) return;
       bSelect = true;      
@@ -189,33 +194,14 @@ void mouseMoved() {
 }
 
 
-// for(City c:cityList) {
-//
-//    fill(32);
-//    pushMatrix();
-//    translate(x+10,y); // Translate to the center
-//    rotate(-PI/4.0);               // Rotate by theta
-//    textAlign(LEFT) ;
-//    text(c.name,0,0);
-//    popMatrix();
-//   
-//    float barHeight = Float.valueOf(c.oil).floatValue() * 100 * 2;
-//    fill(100);
-//    rect(x, height-120-barHeight,50, barHeight);
-//
-//    fill(255);
-//    textAlign(CENTER);
-//    text(c.oil,x, height-120-30, 50, 20);
-//    
-//    x+=90; 
-//  }  
+
 class BookSales {
   int bookYear;
   String title;
   String author;
   int preaward;
   int postaward;
-  float growth;
+  int growth;
   PVector pos = new PVector();
   
   
@@ -225,7 +211,7 @@ class BookSales {
     title = input[2];
     preaward = int(input[3]);
     postaward = int(input[4]);
-    growth = float(input[5]);
+    growth = int(input[5]);
   }
 }
 

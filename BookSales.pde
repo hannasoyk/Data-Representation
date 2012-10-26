@@ -4,7 +4,7 @@ class BookSales {
   String author;
   int preaward;
   int postaward;
-  float growth;
+  int growth;
   PVector pos = new PVector();
   
   
@@ -14,6 +14,6 @@ class BookSales {
     title = input[2];
     preaward = int(input[3]);
     postaward = int(input[4]);
-    growth = float(input[5]);
+    growth = int(input[5]);
   }
 }

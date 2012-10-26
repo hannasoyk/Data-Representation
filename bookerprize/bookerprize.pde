@@ -52,7 +52,7 @@ void draw(){
     //rotate(-HALF_PI);
     textFont(t, 15);
     fill(205, 229, 230);
-    text(b.growth+"X", 0, 0);
+    text(b.growth+"%", 0, 0);
     popMatrix();
         
     /*
@@ -106,8 +106,7 @@ void preaward() {
   for(int i=0; i<12; i++) {
   BookSales bos = books.get(i);
   float x = map(bos.bookYear, 2000, 2011, 120, width-120);
-  //float y = map(bos.growth, 782, 20772, height-200, 200);
-  float y = map(bos.growth, 8, 208, height-200, 200);
+  float y = map(bos.growth, 782, 20772, height-200, 200);
   float w = map(sqrt(bos.preaward), sqrt(2397), sqrt(35900), 7, 100);
   bos.pos.x = x;
   bos.pos.y = y;
@@ -125,8 +124,7 @@ void postaward() {
   
   
   float x = map(bos.bookYear, 2000, 2011, 120, width-120);
-  //float y = map(bos.growth, 782, 20772, height-200, 200);  
-  float y = map(bos.growth, 8, 208, height-200, 200);
+  float y = map(bos.growth, 782, 20772, height-200, 200);  
   float w = map(sqrt(bos.postaward), sqrt(182044), sqrt(1312221), 75, 547);
   fill(142, 75, 72, 126);
   ellipse(x, y, w, w);
@@ -168,7 +166,7 @@ void legend(){
   text(preaward, 1020, 130);
   
   //line for percentage growth
-  String growth = "Growth Increase";
+  String growth = "Percentage Growth";
   stroke(142, 75, 72);
   line(993, 163, 1007, 163);
   fill(255);
@@ -194,4 +192,24 @@ void mouseDetect() {
 }
 
 
+
+class BookSales {
+  int bookYear;
+  String title;
+  String author;
+  int preaward;
+  int postaward;
+  int growth;
+  PVector pos = new PVector();
+  
+  
+  void fromCSV(String[] input) {
+    bookYear = int(input[0]);
+    author = input[1];
+    title = input[2];
+    preaward = int(input[3]);
+    postaward = int(input[4]);
+    growth = int(input[5]);
+  }
+}
 
